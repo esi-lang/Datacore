@@ -30,4 +30,27 @@ class DataCoreParser:
             self.pos += 1
             return token_value
         raise SyntaxError(f"Expected {expected_type}, got {token_type}")
+#  SELECT Statement Parsing (Fields & Entity)
+def parse_select(self) -> dict:
+        """
+        Parse a SELECT statement, focusing on fields and entity.
+        Example: SELECT * FROM STUDENT;
+        """
+        self.consume("SELECT") 
+        fields = []
+        if self.current_token()[0] == "WILDCARD":
+            fields.append(self.consume("WILDCARD")) 
+        else:
+            fields.append(self.consume("IDENTIFIER")) 
+
+        self.consume("FROM")  
+        entity = self.consume("IDENTIFIER").upper() 
+
+       
+        where_clause = None
+        if self.current_token() and self.current_token()[0] == "WHERE":
+            where_clause = self._parse_where_clause() 
+
+        self.consume("DELIMITER")  
+        return {"type": "SELECT", "fields": fields, "entity": entity, "where": where_clause}
          
