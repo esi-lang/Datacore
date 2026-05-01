@@ -66,4 +66,20 @@ def parse_select(self) -> dict:
         self.consume("DELIMITER")
         return {"type": "SELECT", "fields": fields, "entity": entity, "where": where_clause}
 
-         
+        # Example usage
+        if __name__ == "__main__":
+            # Example tokens from your lexer
+            tokens = [
+                ("SELECT", None), ("WILDCARD", "*"), ("FROM", None), ("IDENTIFIER", "STUDENT"), ("DELIMITER", ";"),
+                ("SELECT", None), ("IDENTIFIER", "name"), ("FROM", None), ("IDENTIFIER", "STUDENT"), ("DELIMITER", ";")
+            ]
+        
+            parser = DataCoreParser(tokens)
+            try:
+                parsed = parser.parse()
+                import pprint
+                pprint.pprint(parsed)
+            except SyntaxError as e:
+                print(f"Syntax error: {e}", file=sys.stderr)
+        
+                 
