@@ -30,3 +30,4 @@ class DataCoreParser:
             self.pos += 1
             return token_value
         raise SyntaxError(f"Expected {expected_type}, got {token_type}")
+         
