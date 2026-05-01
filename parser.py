@@ -65,6 +65,20 @@ def parse_select(self) -> dict:
             where_clause = {"field": field, "operator": operator, "value": value}
         self.consume("DELIMITER")
         return {"type": "SELECT", "fields": fields, "entity": entity, "where": where_clause}
+        def parse_update(self) -> dict:
+        self.consume("UPDATE")
+        entity = self.consume("IDENTIFIER").upper()
+        name = self.consume("IDENTIFIER")
+        self.consume("STATUS")
+        value = self.consume("FLOAT")
+        self.consume("DELIMITER")
+        return {"type": "UPDATE", "entity": entity, "name": name, "value": value}
+    def parse_delete(self) -> dict:
+        self.consume("DELETE")
+        entity = self.consume("IDENTIFIER").upper()
+        name = self.consume("IDENTIFIER")
+        self.consume("DELIMITER")
+        return {"type": "DELETE", "entity": entity, "name": name}
 
         # Example usage
         if __name__ == "__main__":
