@@ -53,4 +53,17 @@ def parse_select(self) -> dict:
 
         self.consume("DELIMITER")  
         return {"type": "SELECT", "fields": fields, "entity": entity, "where": where_clause}
+    
+    def parse_select(self) -> dict:
+        # ... (fields and entity parsing from Role 5)
+        where_clause = None
+        if self.current_token() and self.current_token()[0] == "WHERE":
+            self.consume("WHERE")
+            field = self.consume("IDENTIFIER")
+            operator = self.consume("OPERATOR")
+            value = self.consume("FLOAT")
+            where_clause = {"field": field, "operator": operator, "value": value}
+        self.consume("DELIMITER")
+        return {"type": "SELECT", "fields": fields, "entity": entity, "where": where_clause}
+
          
