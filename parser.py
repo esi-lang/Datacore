@@ -1,4 +1,5 @@
 import sys
+import token
 from typing import List, Tuple, Union, Optional
 
 # Defined token types for clarity
@@ -30,8 +31,38 @@ class DataCoreParser:
             self.pos += 1
             return token_value
         raise SyntaxError(f"Expected {expected_type}, got {token_type}")
+    
+    #main_parse.py
+
+
+
+    def parse(self) -> List[dict]:
+        statements = []
+        while self.current_token() is not None:
+            statements.append(self.parse_statement())
+        return statements
+
+    def parse_statement(self) -> dict:
+        token = self.current_token()
+        if token is None:
+            raise SyntaxError("Unexpected end of input")
+
+        token_type, _ = token
+        if token_type == "ADD":
+            return self.parse_add()
+        elif token_type == "READ":
+            return self.parse_read()
+        elif token_type == "UPDATE":
+            return self.parse_update()
+        elif token_type == "DELETE":
+            return self.parse_delete()
+        elif token_type == "SELECT":
+            return self.parse_select()
+        else:
+            raise SyntaxError(f"Unexpected statement type: {token_type}")
+        
 #  SELECT Statement Parsing (Fields & Entity)
-def parse_select(self) -> dict:
+    def parse_select(self) -> dict:
         """
         Parse a SELECT statement, focusing on fields and entity.
         Example: SELECT * FROM STUDENT;
