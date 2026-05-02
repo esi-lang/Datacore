@@ -126,5 +126,21 @@ class DataCoreParser:
                 pprint.pprint(parsed)
             except SyntaxError as e:
                 print(f"Syntax error: {e}", file=sys.stderr)
+
+
+ def parse_add(self) -> dict:
+        self.consume("ADD")
+        entity = self.consume("IDENTIFIER").upper()
+        name = self.consume("IDENTIFIER")
+        self.consume("DELIMITER")
+        return {"type": "ADD", "entity": entity, "name": name}
+
+    def parse_read(self) -> dict:
+        self.consume("READ")
+        entity = self.consume("IDENTIFIER").upper()
+        name = self.consume("IDENTIFIER")
+        self.consume("DELIMITER")
+        return {"type": "READ", "entity": entity, "name": name}
+
         
                  
